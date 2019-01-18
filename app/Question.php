@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use Log;
 
-class Quiz extends Model implements Auditable
+class Question extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use \Illuminate\Database\Eloquent\SoftDeletes;
 
-    protected $table = 'quizes';
+    protected $table = 'questions';
 
     protected $dates = [
         'created_at',
@@ -20,16 +20,10 @@ class Quiz extends Model implements Auditable
         'deleted_at',
     ];
 
-    protected $fillable = [
-        'title',
-        'description'
-    ];
-
-    public function Questions()
+    public function Answers()
     {
-        return $this->hasMany(Question::class, 'quiz_id');
+        return $this->hasMany(Answer::class, 'question_id');
     }
-
 
     public function getCreatedAtDisplayDateTimeAttribute()
     {
