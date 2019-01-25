@@ -31,7 +31,6 @@
 
                     </div>
                     <div class="card-footer">
-                        {{-- <a href="{{ route('takeQuiz', $Quiz->id) }}" class="btn btn-success float-right">Start Quiz</a> --}}
                         <button type="button" class="btn btn-success float-right" id="submitAnswerButton">Submit</button>
                     </div>
                 </div>
@@ -55,7 +54,6 @@
                 $.ajax({
                     url: '{{ route('grabNextQuestion', [$Quiz->id, $QuizAttempt->id]) }}',
                     type: 'POST',
-                    // data: {question_id}
                 })
                 .done(function(data) {
                     var question = JSON.parse(data.question);
@@ -116,10 +114,6 @@
             });
 
         });
-
-        // $(document).on('change', 'input[type="radio"][name="radio_input"]', function () {
-        //     console.log($(this).val());
-        // });
 
     </script>
 
