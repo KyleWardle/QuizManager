@@ -63,8 +63,9 @@
                                                 <td>{{ $Quiz->description }}</td>
                                                 <td>{{ $Quiz->created_at_display_date_time }}</td>
                                                 <td>
-                                                    <a href="{{ route('manageQuestions', $Quiz->id) }}" class="btn btn-primary btn-sm">Manage Questions</a>
-                                                    <a href="{{ route('editQuiz', $Quiz->id) }}" class="btn btn-info btn-sm">Edit</a>
+                                                    <a href="{{ route('startQuiz', $Quiz->id) }}" class="btn btn-primary btn-sm">Take Quiz</a>
+                                                    <a href="{{ route('manageQuestions', $Quiz->id) }}" class="btn btn-info btn-sm">Manage Questions</a>
+                                                    <a href="{{ route('editQuiz', $Quiz->id) }}" class="btn btn-warning btn-sm">Edit</a>
                                                     <a href="{{ route('deleteQuiz', $Quiz->id) }}" class="btn btn-danger btn-sm">Delete</a>
                                                 </td>
                                             </tr>

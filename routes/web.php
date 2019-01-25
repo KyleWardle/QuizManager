@@ -30,3 +30,11 @@ Route::get('/quiz/{quizid}/new-question/', 'QuestionController@new')->name('newQ
 Route::post('/quiz/{quizid}/new-question/', 'QuestionController@submitNew')->name('submitNewQuestion');
 Route::get('/quiz/{quizid}/edit-question/{questionid}', 'QuestionController@edit')->name('editQuestion');
 Route::post('/quiz/{quizid}/edit-question/{questionid}', 'QuestionController@submitEdit')->name('submitEditQuestion');
+Route::get('/quiz/{quizid}/delete-question/{questionid}', 'QuestionController@delete')->name('deleteQuestion');
+
+Route::get('/quiz/{quizid}/start-quiz', 'QuizTakingController@start')->name('startQuiz');
+Route::get('/quiz/{quizid}/start-quiz/submit', 'QuizTakingController@submitStart')->name('submitStartQuiz');
+Route::get('/quiz/{quizid}/take-quiz/{quizattemptid}', 'QuizTakingController@take')->name('takeQuiz');
+Route::post('/quiz/{quizid}/grab-next-question/{quizattemptid}', 'QuizTakingController@grabNextQuestion')->name('grabNextQuestion');
+Route::post('/quiz/{quizid}/save-quiz-answer/{quizattemptid}', 'QuizTakingController@saveAnswer')->name('saveQuizAnswer');
+Route::get('/quiz/{quizid}/quiz-summary/{quizattemptid}', 'QuizTakingController@summary')->name('quizSummary');

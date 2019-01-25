@@ -101,69 +101,73 @@
         </div>
     </div>
 
-    <script>
+    @section('customjavascript')
 
-        var col_count = 0;
+        <script>
 
-        function addAnswer(value = null, correct = null) {
-            $('#no_rows_row').hide();
-            col_count++;
+            var col_count = 0;
 
-            var row = $('<tr>').appendTo('#answerTable thead');
+            function addAnswer(value = null, correct = null) {
+                $('#no_rows_row').hide();
+                col_count++;
 
-            var question_col = $('<td>').appendTo(row);
-            var question_input = $('<input />')
-            .prop('type', 'text')
-            .prop('name', 'answer['+ col_count +']')
-            .prop('required', true)
-            .addClass('form-control')
-            .val(value)
-            .appendTo(question_col);
+                var row = $('<tr>').appendTo('#answerTable thead');
 
-            var correct_col = $('<td>').appendTo(row);
+                var question_col = $('<td>').appendTo(row);
+                var question_input = $('<input />')
+                .prop('type', 'text')
+                .prop('name', 'answer['+ col_count +']')
+                .prop('required', true)
+                .addClass('form-control')
+                .val(value)
+                .appendTo(question_col);
 
-            var correct_div = $('<div>').addClass('form-check').appendTo(correct_col);
-            var correct_input = $('<input />')
-            .prop('type', 'checkbox')
-            .prop('name', 'correct['+ col_count +']')
-            .addClass('form-check-input')
-            .prop('checked', correct)
-            .appendTo(correct_div);
+                var correct_col = $('<td>').appendTo(row);
 
-            var options_col = $('<td>').appendTo(row);
-            var deleteButton = $('<button>')
-            .addClass('deleteAnswerButton btn btn-danger')
-            .text('Delete')
-            .prop('type', 'button')
-            .appendTo(options_col);
-        }
+                var correct_div = $('<div>').addClass('form-check').appendTo(correct_col);
+                var correct_input = $('<input />')
+                .prop('type', 'checkbox')
+                .prop('name', 'correct['+ col_count +']')
+                .addClass('form-check-input')
+                .prop('checked', correct)
+                .appendTo(correct_div);
 
-        @if (old('answer'))
-            @foreach(old('answer') as $key => $value)
-                addAnswer('{{ $value }}', {{ old('correct')[$key] == "on" ? 1 : 0 }});
-            @endforeach
-        @endif
-
-        @if($Question && $Question->Answers)
-            @foreach($Question->Answers as $Answer)
-                addAnswer('{{ $Answer->answer }}', {{ $Answer->is_correct }});
-            @endforeach
-        @endif
-
-        $(document).ready(function () {
-            $('.addAnswerButton').click(function () {
-                addAnswer();
-            });
-        });
-
-        $(document).on('click', '.deleteAnswerButton', function () {
-            var row = $(this).closest('tr').remove();
-            col_count--;
-
-            if (col_count == 0) {
-                $('#no_rows_row').show();
+                var options_col = $('<td>').appendTo(row);
+                var deleteButton = $('<button>')
+                .addClass('deleteAnswerButton btn btn-danger')
+                .text('Delete')
+                .prop('type', 'button')
+                .appendTo(options_col);
             }
-        });
 
-    </script>
+            @if (old('answer'))
+                @foreach(old('answer') as $key => $value)
+                    addAnswer('{{ $value }}', {{ old('correct')[$key] == "on" ? 1 : 0 }});
+                @endforeach
+            @endif
+
+            @if($Question && $Question->Answers)
+                @foreach($Question->Answers as $Answer)
+                    addAnswer('{{ $Answer->answer }}', {{ $Answer->is_correct }});
+                @endforeach
+            @endif
+
+            $(document).ready(function () {
+                $('.addAnswerButton').click(function () {
+                    addAnswer();
+                });
+            });
+
+            $(document).on('click', '.deleteAnswerButton', function () {
+                var row = $(this).closest('tr').remove();
+                col_count--;
+
+                if (col_count == 0) {
+                    $('#no_rows_row').show();
+                }
+            });
+
+        </script>
+        
+    @endsection
 @endsection

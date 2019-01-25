@@ -100,4 +100,14 @@ class QuestionController extends Controller
 
          return redirect()->route('manageQuestions', $Quiz->id);
      }
+
+     public function delete(request $request, $QuizID, $QuestionID)
+     {
+         $Quiz = Quiz::findOrFail($QuizID);
+         $Question = Question::where('quiz_id', $QuizID)->findOrFail($QuestionID);
+
+         $Question->delete();
+
+         return redirect()->back();
+     }
 }

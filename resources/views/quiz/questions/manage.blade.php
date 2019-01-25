@@ -32,7 +32,10 @@
                                         <tr>
                                             <td>{{ $Question->question }}</td>
                                             <td>{{ $Question->Answers->count() }}</td>
-                                            <td> <a href="{{ route('editQuestion', [$Quiz->id, $Question->id]) }}" class="btn btn-info btn-sm">Edit</a> </td>
+                                            <td>
+                                                <a href="{{ route('editQuestion', [$Quiz->id, $Question->id]) }}" class="btn btn-info btn-sm">Edit</a>
+                                                <a href="{{ route('deleteQuestion', [$Quiz->id, $Question->id]) }}" class="btn btn-danger btn-sm">Delete</a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

@@ -22,7 +22,8 @@ class Quiz extends Model implements Auditable
 
     protected $fillable = [
         'title',
-        'description'
+        'description',
+        'pass_amount'
     ];
 
     public function Questions()

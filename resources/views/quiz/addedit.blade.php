@@ -54,6 +54,20 @@
 
                             <div class="row">
                                 <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="pass_amount">How many correct questions are required for a pass? <span class="text-danger">*</span></label>
+                                        <input class="form-control{{ $errors->has('pass_amount') ? ' is-invalid' : '' }}" type="text" id="pass_amount" name="pass_amount" placeholder="Pass Amount" value="{{ old('pass_amount') ?? $Quiz->pass_amount ?? null }}" required />
+                                        @if ($errors->has('pass_amount'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('pass_amount') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
                                     <button class="btn btn-success" type="submit">Submit</button>
                                 </div>
                             </div>

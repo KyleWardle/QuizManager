@@ -36,20 +36,20 @@ class AddQuizQuestions extends Migration
             $table->foreign('question_id')->references('id')->on('questions');
         });
 
-        Schema::create('user_answers', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('quiz_id')->unsigned();
-            $table->integer('question_id')->unsigned();
-            $table->integer('answer_id')->unsigned();
-            $table->text('answer');
-            $table->boolean('is_correct')->default(0);
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->foreign('quiz_id')->references('id')->on('quizes');
-            $table->foreign('question_id')->references('id')->on('questions');
-            $table->foreign('answer_id')->references('id')->on('answers');
-        });
+        // Schema::create('user_answers', function (Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->integer('quiz_id')->unsigned();
+        //     $table->integer('question_id')->unsigned();
+        //     $table->integer('answer_id')->unsigned();
+        //     $table->text('answer');
+        //     $table->boolean('is_correct')->default(0);
+        //     $table->timestamps();
+        //     $table->softDeletes();
+        //
+        //     $table->foreign('quiz_id')->references('id')->on('quizes');
+        //     $table->foreign('question_id')->references('id')->on('questions');
+        //     $table->foreign('answer_id')->references('id')->on('answers');
+        // });
     }
 
     /**

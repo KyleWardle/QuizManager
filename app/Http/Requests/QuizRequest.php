@@ -26,6 +26,7 @@ class QuizRequest extends FormRequest
         return [
             'title' => 'required|max:150|string',
             'description' => 'required|string',
+            'pass_amount' => 'required|integer|min:0'
         ];
     }
 }
