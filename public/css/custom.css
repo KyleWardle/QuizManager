@@ -1,0 +1,8 @@
+#progress{
+z-index: 30000;
+}
+
+.loadertext{
+  text-align: center;
+    display: inherit;
+}
