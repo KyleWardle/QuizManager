@@ -63,6 +63,10 @@ class Quiz extends Model implements Auditable
         return $this->hasMany(Question::class, 'quiz_id');
     }
 
+    public function QuizAttempts()
+    {
+        return $this->hasMany(QuizAttempt::class, 'quiz_id');
+    }
 
     public function getCreatedAtDisplayDateTimeAttribute()
     {

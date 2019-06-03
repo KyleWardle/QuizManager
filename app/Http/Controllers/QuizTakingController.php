@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Quiz;
 use App\Question;
@@ -106,9 +107,16 @@ class QuizTakingController extends Controller
 
     public function summary(request $request, $QuizID, $QuizAttemptID)
     {
-        $Quiz = Quiz::with('Questions.Answers')->findOrFail($QuizID);
+        $Quiz = Quiz::withTrashed()->with('Questions.Answers')->findOrFail($QuizID);
         $QuizAttempt = QuizAttempt::with('QuizAttemptAnswers')->findOrFail($QuizAttemptID);
+        $descriptor = Auth::id() === $QuizAttempt->user_id ? 'You' : 'They';
 
-        return view('quiz.summary', compact('Quiz', 'QuizAttempt'));
+        return view('quiz.summary', compact('Quiz', 'QuizAttempt', 'descriptor'));
+    }
+
+    public function myAttempts()
+    {
+        $User = User::with('QuizAttempts.Quiz.Questions')->findOrFail(Auth::id());
+        return view('users.attempts', compact('User'));
     }
 }

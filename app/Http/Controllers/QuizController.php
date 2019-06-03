@@ -58,4 +58,11 @@ class QuizController extends Controller
          $Quiz->delete();
          return redirect()->route('home');
      }
+
+     public function quizAttempts($QuizID)
+     {
+         $Quiz = Quiz::with('QuizAttempts.Quiz.Questions', 'QuizAttempts.User')->findOrFail($QuizID);
+         return view('quiz.attempts', compact('Quiz'));
+
+     }
 }

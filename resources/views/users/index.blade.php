@@ -34,7 +34,7 @@
                                         <td>{{ $User->Role->name }}</td>
                                         <td>
                                             @if(Auth::id() !== $User->id)
-                                                <a href="{{ route('editUser', [$User]) }}" class="btn btn-info btn-sm">Edit</a>
+                                                <a href="{{ route('editUser', [$User]) }}" class="btn btn-info btn-sm mt-2">Edit</a>
                                                 {!! $User->render_delete_button('deleteUser') !!}
                                             @endif
                                         </td>

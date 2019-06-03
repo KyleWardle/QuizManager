@@ -73,7 +73,7 @@ class QuizAttempt extends Model implements Auditable
 
     public function Quiz()
     {
-        return $this->belongsTo(Quiz::class, 'quiz_id');
+        return $this->belongsTo(Quiz::class, 'quiz_id')->withTrashed();
     }
 
     public function QuizAttemptAnswers()
@@ -106,6 +106,10 @@ class QuizAttempt extends Model implements Auditable
 
     public function getTimeTakenAttribute()
     {
+        if ($this->quiz_end_time === null) {
+            return 'Incomplete';
+        }
+
         return $this->quiz_start_time->diffAsCarbonInterval($this->quiz_end_time)->forHumans();
 
     }

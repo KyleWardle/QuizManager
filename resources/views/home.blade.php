@@ -20,22 +20,22 @@
                         <h3>Options</h3>
                     </div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                @if(Auth::user()->is_teacher)
-                                    <a href="{{ route('createQuiz') }}" class="btn btn-info">Create New Quiz</a>
+                        @if(Auth::user()->is_teacher)
+                            <div class="row">
+                                <div class="col-sm-12">
+                                        <a href="{{ route('createQuiz') }}" class="btn btn-info">Create New Quiz</a>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-sm-12">
                                     <a href="{{ route('manageUsers') }}" class="btn btn-warning">Manage Users</a>
-                                @endif
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
+                        @endif
 
-                            </div>
-                        </div>
-                        <div class="row">
+                        <div class="row mt-2">
                             <div class="col-sm-12">
-
+                                <a href="{{ route('myAttempts') }}" class="btn btn-success">My Quiz Attempts</a>
                             </div>
                         </div>
                     </div>
@@ -66,10 +66,11 @@
                                                 <td>{{ $Quiz->description }}</td>
                                                 <td>{{ $Quiz->created_at_display_date_time }}</td>
                                                 <td>
-                                                    <a href="{{ route('startQuiz', $Quiz->id) }}" class="btn btn-primary btn-sm">Take Quiz</a>
+                                                    <a href="{{ route('startQuiz', $Quiz->id) }}" class="btn btn-primary btn-sm mt-2">Take Quiz</a>
                                                     @if(Auth::user()->is_teacher)
-                                                        <a href="{{ route('manageQuestions', $Quiz->id) }}" class="btn btn-info btn-sm">Manage Questions</a>
-                                                        <a href="{{ route('editQuiz', $Quiz->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                                        <a href="{{ route('quizAttempts', $Quiz->id) }}" class="btn btn-success btn-sm mt-2">Attempts</a>
+                                                        <a href="{{ route('manageQuestions', $Quiz->id) }}" class="btn btn-info btn-sm mt-2">Manage Questions</a>
+                                                        <a href="{{ route('editQuiz', $Quiz->id) }}" class="btn btn-warning btn-sm mt-2">Edit</a>
                                                         {!! $Quiz->render_delete_button('deleteQuiz', 'title') !!}
                                                     @endif
                                                 </td>

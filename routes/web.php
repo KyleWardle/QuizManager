@@ -22,10 +22,12 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('verified'
 Route::post('/modals/confirm-delete', 'ModalController@confirm_delete')->name('confirm_delete_modal');
 
 Route::get('/home/create', 'QuizController@create')->name('createQuiz');
-Route::post('/quiz/create', 'QuizController@submitCreate')->name('submitCreateQuiz');
+Route::post('/quiz/create',
+    'QuizController@submitCreate')->name('submitCreateQuiz');
 Route::get('/home/{quizid}/edit', 'QuizController@edit')->name('editQuiz');
 Route::post('/quiz/{quizid}/edit', 'QuizController@submitEdit')->name('submitEditQuiz');
 Route::delete('/quiz/{quizid}/delete', 'QuizController@delete')->name('deleteQuiz');
+Route::get('/quiz/{quizid}/attempts', 'QuizController@quizAttempts')->name('quizAttempts');
 
 Route::get('/quiz/{quizid}/manage-questions/', 'QuestionController@manage')->name('manageQuestions');
 Route::get('/quiz/{quizid}/new-question/', 'QuestionController@new')->name('newQuestion');
@@ -47,3 +49,5 @@ Route::post('/users/new', 'UserController@createUser')->name('createUser');
 Route::get('/users/edit/{User}', 'UserController@editUser')->name('editUser');
 Route::patch('/users/edit/{User}', 'UserController@updateUser')->name('updateUser');
 Route::delete('/users/delete/{User}', 'UserController@deleteUser')->name('deleteUser');
+
+Route::get('/attempts', 'QuizTakingController@myAttempts')->name('myAttempts');
