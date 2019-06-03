@@ -69,8 +69,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(QuizAttempt::class, 'user_id');
     }
 
-    public function getIsTeacherAttribute()
+    public function getCanViewAttribute()
     {
-        return $this->role_id === 2;
+        return in_array($this->role_id, [2,3]);
+    }
+
+    public function getCanEditAttribute()
+    {
+        return $this->role_id === 3;
     }
 }

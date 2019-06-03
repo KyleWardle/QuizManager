@@ -28,13 +28,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($Quiz->Questions as $Question)
+                                    @foreach($Quiz->Questions as $key => $Question)
                                         <tr>
+                                            <td>{{ $key + 1 }}</td>
                                             <td>{{ $Question->question }}</td>
                                             <td>{{ $Question->Answers->count() }}</td>
                                             <td>
                                                 <a href="{{ route('editQuestion', [$Quiz->id, $Question->id]) }}" class="btn btn-info btn-sm">Edit</a>
+                                            @if(Auth::user()->can_edit)
                                                 <a href="{{ route('deleteQuestion', [$Quiz->id, $Question->id]) }}" class="btn btn-danger btn-sm">Delete</a>
+                                            @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -45,7 +48,9 @@
                     </div>
                     <div class="card-footer">
                         <a href="{{ route('home') }}" class="btn btn-warning">Back</a>
-                        <a href="{{ route('newQuestion', $Quiz->id) }}" class="btn btn-success float-right">New Question</a>
+                        @if(Auth::user()->can_edit)
+                            <a href="{{ route('newQuestion', $Quiz->id) }}" class="btn btn-success float-right">New Question</a>
+                        @endif
                     </div>
                 </div>
 

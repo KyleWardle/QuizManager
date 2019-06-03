@@ -57,7 +57,8 @@
                 })
                 .done(function(data) {
                     var question = JSON.parse(data.question);
-                    displayQuestion(question);
+                    var question_number = data.question_number;
+                    displayQuestion(question, question_number);
                 })
                 .fail(function(data) {
                     console.log("error");
@@ -67,8 +68,8 @@
 
             }
 
-            function displayQuestion(question) {
-                $('#question_text_area').data('question-id', question.id).html(question.question);
+            function displayQuestion(question, question_number) {
+                $('#question_text_area').data('question-id', question.id).html(question_number + '. ' + question.question);
                 var answers = question.answers;
                 $.each(answers, function (index, element) {
                     var radio = generateRadioInput(element);
@@ -80,8 +81,8 @@
             function generateRadioInput(element) {
                 var form_check = $('<div>').addClass('form-check');
                 var label = $('<label>').addClass('form-check-label').appendTo(form_check);
-                var input = $('<input>').prop('type', 'radio').val(element.id).prop('name', 'radio_input').addClass('form-check-input').appendTo(label);
-                var span = $('<span>').text(element.answer).appendTo(label);
+                $('<input>').prop('type', 'radio').val(element.id).prop('name', 'radio_input').addClass('form-check-input').appendTo(label);
+                $('<span>').text(element.answer).appendTo(label);
 
                 return form_check;
             }

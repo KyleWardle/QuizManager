@@ -17,7 +17,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body text-center">
-                        @if(count($Quiz->QuizAttempts) > 0)
+                        @if(count($QuizAttempts) > 0)
                             <div class="table-responsive">
 
                                 <table class="table table-bordered table-hover">
@@ -31,7 +31,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($Quiz->QuizAttempts as $Attempt)
+                                    @foreach($QuizAttempts as $Attempt)
                                         <tr @if($Attempt->has_passed) class="table-success" @else class="table-danger" @endif >
                                             <td>{{ $Attempt->created_at_display_date_time }}</td>
                                             <td>{{ $Attempt->User->name }}</td>

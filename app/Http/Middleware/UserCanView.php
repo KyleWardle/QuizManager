@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class UserIsTeacher
+class UserCanView
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class UserIsTeacher
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::user()->role_id == 2) {
+        if (Auth::user()->can_view) {
             return $next($request);
         } else {
             abort(403, 'No Permission'); // 403 for not permitted HTTP code

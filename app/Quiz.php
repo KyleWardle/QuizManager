@@ -55,12 +55,18 @@ class Quiz extends Model implements Auditable
     protected $fillable = [
         'title',
         'description',
-        'pass_amount'
+        'pass_amount',
+        'parent_id'
     ];
 
     public function Questions()
     {
         return $this->hasMany(Question::class, 'quiz_id');
+    }
+
+    public function QuestionsWithDeleted()
+    {
+        return $this->hasMany(Question::class, 'quiz_id')->withTrashed();
     }
 
     public function QuizAttempts()
@@ -71,5 +77,26 @@ class Quiz extends Model implements Auditable
     public function getCreatedAtDisplayDateTimeAttribute()
     {
         return $this->created_at->format('d/m/Y H:i');
+    }
+
+    public function duplicate()
+    {
+        $Quiz = $this->replicate();
+        $Quiz->parent_id = $this->id;
+        $Quiz->save();
+
+        foreach ($this->Questions as $ParentQuestion) {
+            $Question = $ParentQuestion->replicate();
+            $Question->quiz_id = $Quiz->id;
+            $Question->save();
+
+            foreach ($ParentQuestion->Answers as $ParentAnswer) {
+                $Answer = $ParentAnswer->replicate();
+                $Answer->question_id = $Question->id;
+                $Answer->save();
+            }
+        }
+
+        return $Quiz;
     }
 }

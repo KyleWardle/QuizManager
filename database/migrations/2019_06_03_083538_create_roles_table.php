@@ -20,8 +20,9 @@ class CreateRolesTable extends Migration
         });
 
         DB::table('roles')->insert([
-           ['name' => 'Student'],
-           ['name' => 'Teacher']
+           ['name' => 'View'],
+           ['name' => 'Restricted'],
+           ['name' => 'Edit']
         ]);
 
         Schema::table('users', function (Blueprint $table) {

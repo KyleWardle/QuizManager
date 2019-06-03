@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Middleware\UserIsTeacher;
+use App\Http\Middleware\UserCanEdit;
 use App\Http\Requests\UserRequest;
 use App\Role;
 use App\User;
@@ -14,7 +14,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware(UserIsTeacher::class);
+        $this->middleware(UserCanEdit::class);
     }
 
     public function manage(request $request)

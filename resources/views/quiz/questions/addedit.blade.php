@@ -28,7 +28,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="question">Question <span class="text-danger">*</span></label>
-                                        <input class="form-control{{ $errors->has('question') ? ' is-invalid' : '' }}" type="text" id="question" name="question" placeholder="Question" value="{{ old('question') ?? $Question->question ?? null }}" required />
+                                        <input @if(!Auth::user()->can_edit) disabled @endif class="form-control{{ $errors->has('question') ? ' is-invalid' : '' }}" type="text" id="question" name="question" placeholder="Question" value="{{ old('question') ?? $Question->question ?? null }}" required />
                                         @if ($errors->has('question'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('question') }}</strong>
@@ -41,8 +41,9 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="table-responsive">
-                                        <button type="button" class="btn btn-primary float-right mb-2 addAnswerButton">Add Answer</button>
-
+                                        @if(Auth::user()->can_edit)
+                                            <button type="button" class="btn btn-primary float-right mb-2 addAnswerButton">Add Answer</button>
+                                        @endif
                                         <table class="table table-bordered table-hover" id="answerTable">
                                             <thead>
                                                 <tr>
@@ -90,7 +91,9 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <a href="{{ url()->previous() }}" class="btn btn-warning">Back</a>
-                                    <button class="btn btn-success float-right" type="submit">Submit</button>
+                                    @if(Auth::user()->can_edit)
+                                        <button class="btn btn-success float-right" type="submit">Submit</button>
+                                    @endif
                                 </div>
                             </div>
 
@@ -119,6 +122,9 @@
                 .prop('name', 'answer['+ col_count +']')
                 .prop('required', true)
                 .addClass('form-control')
+                @if(!Auth::user()->can_edit)
+                .prop('disabled', true)
+                @endif
                 .val(value)
                 .appendTo(question_col);
 
@@ -130,6 +136,9 @@
                 .prop('name', 'correct['+ col_count +']')
                 .addClass('form-check-input')
                 .prop('checked', correct)
+                @if(!Auth::user()->can_edit)
+                .prop('disabled', true)
+                @endif
                 .appendTo(correct_div);
 
                 var options_col = $('<td>').appendTo(row);
@@ -137,6 +146,9 @@
                 .addClass('deleteAnswerButton btn btn-danger')
                 .text('Delete')
                 .prop('type', 'button')
+                @if(!Auth::user()->can_edit)
+                .prop('disabled', true)
+                @endif
                 .appendTo(options_col);
             }
 

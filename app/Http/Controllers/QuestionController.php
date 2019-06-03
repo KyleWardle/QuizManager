@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Middleware\UserIsTeacher;
+use App\Http\Middleware\UserCanEdit;
+use App\Http\Middleware\UserCanView;
 use Illuminate\Http\Request;
 use App\Quiz;
 use App\Question;
@@ -19,7 +20,8 @@ class QuestionController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware(UserIsTeacher::class);
+        $this->middleware(UserCanView::class);
+        $this->middleware(UserCanEdit::class)->except(['manage', 'edit']);
     }
 
     /**

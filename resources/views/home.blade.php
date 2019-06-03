@@ -20,7 +20,7 @@
                         <h3>Options</h3>
                     </div>
                     <div class="card-body">
-                        @if(Auth::user()->is_teacher)
+                        @if(Auth::user()->can_edit)
                             <div class="row">
                                 <div class="col-sm-12">
                                         <a href="{{ route('createQuiz') }}" class="btn btn-info">Create New Quiz</a>
@@ -67,12 +67,15 @@
                                                 <td>{{ $Quiz->created_at_display_date_time }}</td>
                                                 <td>
                                                     <a href="{{ route('startQuiz', $Quiz->id) }}" class="btn btn-primary btn-sm mt-2">Take Quiz</a>
-                                                    @if(Auth::user()->is_teacher)
+                                                    @if(Auth::user()->can_view)
                                                         <a href="{{ route('quizAttempts', $Quiz->id) }}" class="btn btn-success btn-sm mt-2">Attempts</a>
                                                         <a href="{{ route('manageQuestions', $Quiz->id) }}" class="btn btn-info btn-sm mt-2">Manage Questions</a>
+                                                    @endif
+
+                                                        @if(Auth::user()->can_edit)
                                                         <a href="{{ route('editQuiz', $Quiz->id) }}" class="btn btn-warning btn-sm mt-2">Edit</a>
                                                         {!! $Quiz->render_delete_button('deleteQuiz', 'title') !!}
-                                                    @endif
+                                                        @endif
                                                 </td>
                                             </tr>
                                         @endforeach

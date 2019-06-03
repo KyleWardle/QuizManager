@@ -73,10 +73,16 @@ class QuizAttemptAnswer extends Model implements Auditable
         return $this->belongsTo(Question::class, 'question_id');
     }
 
+    public function QuestionWithDeleted()
+    {
+        return $this->belongsTo(Question::class, 'question_id')->withTrashed();
+    }
+
     public function Answer()
     {
         return $this->belongsTo(Answer::class, 'answer_id');
     }
+
 
     public function getCreatedAtDisplayDateTimeAttribute()
     {
