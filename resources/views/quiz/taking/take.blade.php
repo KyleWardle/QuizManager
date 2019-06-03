@@ -72,17 +72,18 @@
                 $('#question_text_area').data('question-id', question.id).html(question_number + '. ' + question.question);
                 var answers = question.answers;
                 $.each(answers, function (index, element) {
-                    var radio = generateRadioInput(element);
+                    var letter = String.fromCharCode(65 + index); // 65 for ascii 'A'
+                    var radio = generateRadioInput(element, letter);
                     radio.appendTo('#question_answers_area');
 
                 });
             }
 
-            function generateRadioInput(element) {
+            function generateRadioInput(element, letter) {
                 var form_check = $('<div>').addClass('form-check');
                 var label = $('<label>').addClass('form-check-label').appendTo(form_check);
                 $('<input>').prop('type', 'radio').val(element.id).prop('name', 'radio_input').addClass('form-check-input').appendTo(label);
-                $('<span>').text(element.answer).appendTo(label);
+                $('<span>').html('<strong>' + letter + '.</strong> ' + element.answer).appendTo(label);
 
                 return form_check;
             }
