@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => false, 'register' => false]);
 
-Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
+Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('/modals/confirm-delete', 'ModalController@confirm_delete')->name('confirm_delete_modal');
 
