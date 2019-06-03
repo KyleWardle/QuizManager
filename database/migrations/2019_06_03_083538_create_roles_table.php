@@ -20,8 +20,8 @@ class CreateRolesTable extends Migration
         });
 
         DB::table('roles')->insert([
-           ['name' => 'View'],
            ['name' => 'Restricted'],
+           ['name' => 'View'],
            ['name' => 'Edit']
         ]);
 
