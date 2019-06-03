@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\UserIsTeacher;
 use Illuminate\Http\Request;
 use App\Quiz;
 use App\Http\Requests\QuizRequest;
@@ -16,6 +17,7 @@ class QuizController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware(UserIsTeacher::class);
     }
 
     /**

@@ -19,11 +19,13 @@ Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
 
+Route::post('/modals/confirm-delete', 'ModalController@confirm_delete')->name('confirm_delete_modal');
+
 Route::get('/home/create', 'QuizController@create')->name('createQuiz');
 Route::post('/quiz/create', 'QuizController@submitCreate')->name('submitCreateQuiz');
 Route::get('/home/{quizid}/edit', 'QuizController@edit')->name('editQuiz');
 Route::post('/quiz/{quizid}/edit', 'QuizController@submitEdit')->name('submitEditQuiz');
-Route::get('/quiz/{quizid}/delete', 'QuizController@delete')->name('deleteQuiz');
+Route::delete('/quiz/{quizid}/delete', 'QuizController@delete')->name('deleteQuiz');
 
 Route::get('/quiz/{quizid}/manage-questions/', 'QuestionController@manage')->name('manageQuestions');
 Route::get('/quiz/{quizid}/new-question/', 'QuestionController@new')->name('newQuestion');
@@ -38,3 +40,10 @@ Route::get('/quiz/{quizid}/take-quiz/{quizattemptid}', 'QuizTakingController@tak
 Route::post('/quiz/{quizid}/grab-next-question/{quizattemptid}', 'QuizTakingController@grabNextQuestion')->name('grabNextQuestion');
 Route::post('/quiz/{quizid}/save-quiz-answer/{quizattemptid}', 'QuizTakingController@saveAnswer')->name('saveQuizAnswer');
 Route::get('/quiz/{quizid}/quiz-summary/{quizattemptid}', 'QuizTakingController@summary')->name('quizSummary');
+
+Route::get('/users/management', 'UserController@manage')->name('manageUsers');
+Route::get('/users/new', 'UserController@newUser')->name('newUser');
+Route::post('/users/new', 'UserController@createUser')->name('createUser');
+Route::get('/users/edit/{User}', 'UserController@editUser')->name('editUser');
+Route::patch('/users/edit/{User}', 'UserController@updateUser')->name('updateUser');
+Route::delete('/users/delete/{User}', 'UserController@deleteUser')->name('deleteUser');

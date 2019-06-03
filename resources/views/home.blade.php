@@ -22,7 +22,10 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12">
-                                <a href="{{ route('createQuiz') }}" class="btn btn-info">Create New Quiz</a>
+                                @if(Auth::user()->is_teacher)
+                                    <a href="{{ route('createQuiz') }}" class="btn btn-info">Create New Quiz</a>
+                                    <a href="{{ route('manageUsers') }}" class="btn btn-warning">Manage Users</a>
+                                @endif
                             </div>
                         </div>
                         <div class="row">
@@ -64,9 +67,11 @@
                                                 <td>{{ $Quiz->created_at_display_date_time }}</td>
                                                 <td>
                                                     <a href="{{ route('startQuiz', $Quiz->id) }}" class="btn btn-primary btn-sm">Take Quiz</a>
-                                                    <a href="{{ route('manageQuestions', $Quiz->id) }}" class="btn btn-info btn-sm">Manage Questions</a>
-                                                    <a href="{{ route('editQuiz', $Quiz->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                                    <a href="{{ route('deleteQuiz', $Quiz->id) }}" class="btn btn-danger btn-sm">Delete</a>
+                                                    @if(Auth::user()->is_teacher)
+                                                        <a href="{{ route('manageQuestions', $Quiz->id) }}" class="btn btn-info btn-sm">Manage Questions</a>
+                                                        <a href="{{ route('editQuiz', $Quiz->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                                        {!! $Quiz->render_delete_button('deleteQuiz', 'title') !!}
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
