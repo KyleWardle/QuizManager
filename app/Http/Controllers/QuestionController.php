@@ -112,6 +112,6 @@ class QuestionController extends Controller
 
          $Question->delete();
 
-         return redirect()->back();
+         return redirect()->route('manageQuestions', $Quiz->id);
      }
 }
