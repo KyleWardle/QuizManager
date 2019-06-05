@@ -22,6 +22,7 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
+                                        <th>No.</th>
                                         <th>Question</th>
                                         <th>No. of Answers</th>
                                         <th></th>
