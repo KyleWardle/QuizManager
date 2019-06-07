@@ -93,7 +93,7 @@ class QuestionCRUDTest extends TestCase
     public function testDeleteQuestion()
     {
         $response = $this->actingAs($this->User)
-            ->get(route('deleteQuestion', [$this->Quiz->id, $this->Quiz->Questions->first()->id]));
+            ->delete(route('deleteQuestion', [$this->Quiz->id, $this->Quiz->Questions->first()->id]));
 
         $response->assertStatus(403);
     }
