@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\DeleteButton;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -40,6 +41,7 @@ use Log;
 class Question extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
+    use DeleteButton;
     use \Illuminate\Database\Eloquent\SoftDeletes;
 
     protected $table = 'questions';
@@ -58,5 +60,12 @@ class Question extends Model implements Auditable
     public function getCreatedAtDisplayDateTimeAttribute()
     {
         return $this->created_at->format('d/m/Y H:i');
+    }
+
+    public function render_delete_button($delete_url, $field_name = 'name', $password_confirm = false)
+    {
+        $model_id = $this->id;
+        $model = "App\\".class_basename($this);
+        return view('layouts.delete_button', compact('delete_url', 'field_name', 'password_confirm', 'model_id', 'model'));
     }
 }

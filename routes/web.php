@@ -34,7 +34,7 @@ Route::get('/quiz/{quizid}/new-question/', 'QuestionController@new')->name('newQ
 Route::post('/quiz/{quizid}/new-question/', 'QuestionController@submitNew')->name('submitNewQuestion');
 Route::get('/quiz/{quizid}/edit-question/{questionid}', 'QuestionController@edit')->name('editQuestion');
 Route::post('/quiz/{quizid}/edit-question/{questionid}', 'QuestionController@submitEdit')->name('submitEditQuestion');
-Route::get('/quiz/{quizid}/delete-question/{questionid}', 'QuestionController@delete')->name('deleteQuestion');
+Route::delete('/quiz/{quizid}/delete-question/{questionid}', 'QuestionController@delete')->name('deleteQuestion');
 
 Route::get('/quiz/{quizid}/start-quiz', 'QuizTakingController@start')->name('startQuiz');
 Route::get('/quiz/{quizid}/start-quiz/submit', 'QuizTakingController@submitStart')->name('submitStartQuiz');

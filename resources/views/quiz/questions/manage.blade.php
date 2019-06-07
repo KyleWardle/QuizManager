@@ -36,9 +36,9 @@
                                                 <td>{{ $Question->question }}</td>
                                                 <td>{{ $Question->Answers->count() }}</td>
                                                 <td>
-                                                    <a href="{{ route('editQuestion', [$Quiz->id, $Question->id]) }}" class="btn btn-info btn-sm">Edit</a>
+                                                    <a href="{{ route('editQuestion', [$Quiz->id, $Question->id]) }}" class="btn btn-info btn-sm mt-2">Edit</a>
                                                 @if(Auth::user()->can_edit)
-                                                    <a href="{{ route('deleteQuestion', [$Quiz->id, $Question->id]) }}" class="btn btn-danger btn-sm">Delete</a>
+                                                    {!! $Question->render_delete_button(route('deleteQuestion', [$Quiz->id, $Question->id]), 'question') !!}
                                                 @endif
                                                 </td>
                                             </tr>
