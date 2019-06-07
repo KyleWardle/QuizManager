@@ -25,7 +25,7 @@ class UserCRUDTest extends TestCase
         $this->User = factory(User::class)->state('edit')->create();
         $this->OtherUser = factory(User::class)->create();
 
-        // Need to use factories
+        // Using factories to generate fake data for the quiz, questions and answers.
         $this->Quiz = factory(Quiz::class, 1)->create()->each(function ($Quiz) {
             $Quiz->Questions()->saveMany(factory(Question::class, random_int(6,9))->create([
                 'quiz_id' => $Quiz->id,
