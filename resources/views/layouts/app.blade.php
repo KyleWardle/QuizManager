@@ -21,7 +21,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ route('home') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -76,11 +76,53 @@
             <div class="loader">
             </div>
         </main>
+
+        <div id="confirm_modal_area"></div>
     </div>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            $(document).on('click', '.deleteModalButton', function () {
+                var id = $(this).data('id');
+                var delete_url = $(this).data('delete-url');
+                var model = $(this).data('model');
+                var field_name = $(this).data('field-name');
+
+                $.ajax({
+                    type: 'post',
+                    data:{ id, delete_url, model, field_name},
+                    url: '{{ route('confirm_delete_modal') }}',
+                    success:function(data){
+                        $('#confirm_modal_area').html(data);
+                    },
+                    error:function(data){
+                        $('#confirm_modal_area').html('<div class="alert alert-danger alert-dismissable"><i class="fal fa-ban"></i><button type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button> <b>Save Failed</b> <div id="saveajaxerrordiv"></div> </div>');
+                        var result = jQuery.parseJSON(data.responseText);
+                        if (result) {
+                            var errors = result.errors;
+                            //loop over error object, and get to it's
+                            for (var key in errors ) {
+                                // skip loop if the property is from prototype
+                                if (!errors .hasOwnProperty(key)) continue;
+                                var obj = errors [key];
+                                for (var prop in obj) {
+                                    // skip loop if the property is from prototype
+                                    if(!obj.hasOwnProperty(prop)) continue;
+                                    $('#saveajaxerrordiv').append('<li>'+obj[prop]+'</li>'); //update the error div
+                                }
+                            }
+                        }
+                    },
+                });//end ajax
+            });
+        });
+
+    </script>
 
     @yield('customjavascript')
 </body>

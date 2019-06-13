@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\UserCanEdit;
+use App\Http\Middleware\UserCanView;
 use Illuminate\Http\Request;
 use App\Quiz;
 use App\Question;
@@ -18,6 +20,8 @@ class QuestionController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware(UserCanView::class);
+        $this->middleware(UserCanEdit::class)->except(['manage', 'edit']);
     }
 
     /**
@@ -108,6 +112,6 @@ class QuestionController extends Controller
 
          $Question->delete();
 
-         return redirect()->back();
+         return redirect()->route('manageQuestions', $Quiz->id);
      }
 }

@@ -30,15 +30,15 @@
                         <hr />
 
                         <p class="lead">
-                            You took {{ $QuizAttempt->time_taken }} to complete the quiz!
+                            {{ $descriptor }} took {{ $QuizAttempt->time_taken }} to complete the quiz!
                         </p>
 
                         <p>
-                            You got <strong>{{ $QuizAttempt->correct_questions_count }}</strong> out of <strong>{{ $Quiz->Questions->count() }}</strong> questions correct.
+                            {{ $descriptor }} got <strong>{{ $QuizAttempt->correct_questions_count }}</strong> out of <strong>{{ $Quiz->Questions->count() }}</strong> questions correct.
                         </p>
 
                         <p>
-                            You needed <strong>{{ $Quiz->pass_amount }}</strong> out of <strong>{{ $Quiz->Questions->count() }}</strong> correct questions to Pass.
+                            {{ $descriptor }} needed <strong>{{ $Quiz->pass_amount }}</strong> out of <strong>{{ $Quiz->Questions->count() }}</strong> correct questions to Pass.
                         </p>
 
                         <hr />
@@ -54,7 +54,7 @@
 
                             <div class="row mt-2">
                                 <div class="col-sm-12 @if($Answer->Answer->is_correct) text-success @else text-danger @endif ">
-                                    <strong>You Chose:</strong> {{ $Answer->Answer->answer }}
+                                    <strong>{{ $descriptor }} Chose:</strong> {{ $Answer->Answer->answer }}
                                 </div>
                             </div>
                         @endforeach

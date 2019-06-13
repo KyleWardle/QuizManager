@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\UserCanEdit;
+use App\Http\Middleware\UserCanView;
+use App\QuizAttempt;
 use Illuminate\Http\Request;
 use App\Quiz;
 use App\Http\Requests\QuizRequest;
@@ -16,6 +19,8 @@ class QuizController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware(UserCanView::class);
+        $this->middleware(UserCanEdit::class)->except(['quizAttempts']);
     }
 
     /**
@@ -55,5 +60,14 @@ class QuizController extends Controller
          $Quiz = Quiz::findOrFail($QuizID);
          $Quiz->delete();
          return redirect()->route('home');
+     }
+
+     public function quizAttempts($QuizID)
+     {
+         $Quiz = Quiz::findOrFail($QuizID);
+         $AllRelatedQuizzes = Quiz::where('parent_id', $Quiz->id)->orWhere('id', $Quiz->id)->pluck('id')->toArray();
+         $QuizAttempts = QuizAttempt::with('Quiz.Questions', 'User')->whereIn('quiz_id', $AllRelatedQuizzes)->get();
+         return view('quiz.attempts', compact('Quiz', 'QuizAttempts'));
+
      }
 }

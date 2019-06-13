@@ -1,0 +1,1 @@
+<button type="button" class="btn btn-danger btn-sm deleteModalButton mt-2" data-id="{{ $model_id  }}" data-delete-url="{{ $delete_url }}" data-field-name="{{ $field_name }}" data-model="{{ $model }}">Delete</button>

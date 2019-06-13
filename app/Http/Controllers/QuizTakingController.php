@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Quiz;
 use App\Question;
@@ -38,12 +40,14 @@ class QuizTakingController extends Controller
 
     public function submitStart(request $request, $QuizID)
     {
-        $Quiz = Quiz::findOrFail($QuizID);
+        $ParentQuiz = Quiz::with('Questions.Answers')->findOrFail($QuizID);
+
+        $Quiz = $ParentQuiz->duplicate();
 
         $QuizAttempt = new QuizAttempt;
         $QuizAttempt->quiz_id = $Quiz->id;
         $QuizAttempt->user_id = Auth::id();
-        $QuizAttempt->quiz_start_time = \Carbon\Carbon::now('Europe/London');
+        $QuizAttempt->quiz_start_time = Carbon::now('Europe/London');
         $QuizAttempt->save();
 
         return redirect()->route('takeQuiz', [$Quiz->id, $QuizAttempt->id]);
@@ -62,7 +66,8 @@ class QuizTakingController extends Controller
         $Quiz = Quiz::with('Questions.Answers')->findOrFail($QuizID);
         $QuizAttempt = QuizAttempt::with('QuizAttemptAnswers')->findOrFail($QuizAttemptID);
 
-        if ($QuizAttempt->QuizAttemptAnswers->count() > 0) {
+        $AnswerCount = $QuizAttempt->QuizAttemptAnswers->count();
+        if ($AnswerCount > 0) {
             $QuestionIDs = $QuizAttempt->QuizAttemptAnswers->pluck('question_id')->toArray();
 
             $NextQuestion = $Quiz->Questions->whereNotIn('id', $QuestionIDs)->first();
@@ -71,6 +76,7 @@ class QuizTakingController extends Controller
         }
 
         return Response::json([
+            'question_number' => $AnswerCount + 1,
             'question' => $NextQuestion->toJson(),
         ], 200);
     }
@@ -87,7 +93,7 @@ class QuizTakingController extends Controller
         $QuizAttemptAnswer->quiz_attempt_id = $QuizAttempt->id;
         $QuizAttemptAnswer->question_id = $Question->id;
         $QuizAttemptAnswer->answer_id = $Answer->id;
-        $QuizAttemptAnswer->question_answer_time = \Carbon\Carbon::now('Europe/London');
+        $QuizAttemptAnswer->question_answer_time = Carbon::now('Europe/London');
         $QuizAttemptAnswer->save();
 
         $QuizAttempt->load('QuizAttemptAnswers');
@@ -95,7 +101,7 @@ class QuizTakingController extends Controller
         $QuizFinished = ($QuizAttempt->QuizAttemptAnswers->count() >= $Quiz->Questions->count())  ? true : false;
 
         if ($QuizFinished) {
-            $QuizAttempt->quiz_end_time = \Carbon\Carbon::now('Europe/London');
+            $QuizAttempt->quiz_end_time = Carbon::now('Europe/London');
             $QuizAttempt->save();
         }
 
@@ -106,9 +112,16 @@ class QuizTakingController extends Controller
 
     public function summary(request $request, $QuizID, $QuizAttemptID)
     {
-        $Quiz = Quiz::with('Questions.Answers')->findOrFail($QuizID);
-        $QuizAttempt = QuizAttempt::with('QuizAttemptAnswers')->findOrFail($QuizAttemptID);
+        $Quiz = Quiz::withTrashed()->with('Questions.Answers')->findOrFail($QuizID);
+        $QuizAttempt = QuizAttempt::with('QuizAttemptAnswers.Question', 'QuizAttemptAnswers.Answer')->findOrFail($QuizAttemptID);
+        $descriptor = Auth::id() === $QuizAttempt->user_id ? 'You' : 'They';
 
-        return view('quiz.summary', compact('Quiz', 'QuizAttempt'));
+        return view('quiz.summary', compact('Quiz', 'QuizAttempt', 'descriptor'));
+    }
+
+    public function myAttempts()
+    {
+        $User = User::with('QuizAttempts.Quiz.Questions')->findOrFail(Auth::id());
+        return view('users.attempts', compact('User'));
     }
 }

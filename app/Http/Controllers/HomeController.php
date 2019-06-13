@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $Quizes = Quiz::get();
+        $Quizes = Quiz::whereNull('parent_id')->get();
         return view('home', compact('Quizes'));
     }
 }
